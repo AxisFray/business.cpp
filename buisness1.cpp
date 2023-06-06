@@ -17,8 +17,48 @@ float properties[6];// 1pen 2usb  3hardrive 4keyboard 5computer 6cars
 float pricessell[6];
 float pricesbuy[6];
 string text[9];
-string names[5];
+string names[6];
 void Play(), Keyy(),Bank();
+
+
+
+
+
+void Play()
+{
+    system("cls");
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=BUSINESS-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+
+
+    cout << "    money    -- " << round(money) << endl;
+    cout << "    bank account -- " << round(bankacc) << endl;
+    printf("                  [1] - INFO               \n");
+    printf("                  [2] - BANK               \n");
+    printf("                  [3] - KUP                \n");
+    printf("                  [4] - SPRZEDAJ           \n");
+    printf("                  [5] - WYJDZ              \n");
+    printf("                  [6] - EKWIPUNEK          \n");
+    printf("                  [7] - WYLOT              \n");
+    printf("                                                                                      \n");
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+    Keyy();
+}
+void Info()
+{
+    int infochoice;
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=INFO-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+    printf("                                                                                     \n");
+    printf("    wpisz liczby w nawiasach kwadratowych aby dostac sie do okreslonych miejsc       \n");
+    printf("                       kupuj i sprzedawaj produkty aby sie wzbogacic                 \n");
+    printf("               wplacaj pieniadze do banku aby nie straci ich w czasie gry            \n");
+    printf("                                                                                     \n");
+    printf("                            [1] - POWROT DO MENU GLOWNEGO                            \n");
+    printf("                                                                                     \n");
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+    cin >> infochoice;
+    if (infochoice == 1) { Play(); }
+    else { Info(); }
+}
 void Bank()
 {
     int bankchoice;
@@ -81,6 +121,93 @@ void Bank()
         Play();
     }
 }
+void Buy()
+{
+    system("cls");
+    int buychoice, buynumber;
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=KUP-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+    cout << "                      WYBOR                 CENA KUPNA" << endl;
+    cout << "                    [1] - pen         " << pricesbuy[0] << endl;
+    cout << "                    [2] - usb         " << pricesbuy[1] << endl;
+    cout << "                    [3] - harddrive   " << pricesbuy[2] << endl;
+    cout << "                    [4] - keyboard    " << pricesbuy[3] << endl;
+    cout << "                    [5] - computer    " << pricesbuy[4] << endl;
+    cout << "                    [6] - car         " << pricesbuy[5] << endl;
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+    Owned();
+    printf("Wybierz numer 1 - 6");
+    cin >> buychoice;
+    cout << "Ile chcesz kupic" << names[buychoice - 1];
+    cin >> buynumber;
+    buychoice -= 1;
+    if (money >= pricesbuy[buychoice] * buynumber)
+    {
+        properties[buychoice] += buynumber;
+        money -= pricesbuy[buychoice] * buynumber;
+    }
+    else
+    {
+        system("cls");
+        printf("WPISZ LICZBE 1 - 6");
+        Sleep(1800);
+        system("cls");
+        Buy();
+    }
+}
+void Sell()
+{
+    system("cls");
+    int buychoice, buynumber;
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=SPRZEDAJ-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+    cout << "                      WYBOR                 CENA SPRZEDAŻY " << endl;
+    cout << "                    [1] - pen         " << pricessell[0] << endl;
+    cout << "                    [2] - usb         " << pricessell[1] << endl;
+    cout << "                    [3] - harddrive   " << pricessell[2] << endl;
+    cout << "                    [4] - keyboard    " << pricessell[3] << endl;
+    cout << "                    [5] - computer    " << pricessell[4] << endl;
+    cout << "                    [6] - car         " << pricessell[5] << endl;
+    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+    Owned();
+    printf("Wybierz numer 1 - 6");
+    cin >> buychoice;
+    cout << "Ile chcesz kupic" << names[buychoice - 1];
+    cin >> buynumber;
+    buychoice -= 1;
+    if (money >= pricesbuy[buychoice] * buynumber)
+    {
+        properties[buychoice] += buynumber;
+        money -= pricesbuy[buychoice] * buynumber;
+    }
+    else
+    {
+        system("cls");
+        printf("WPISZ LICZBE 1 - 6");
+        Sleep(1800);
+        system("cls");
+        Buy();
+    }
+}
+void Equipment()
+{
+    int equichoice;
+    cout << "          POSIADANE           " << endl;
+    int w;
+    for (w = 0; w <= 5; w++)
+    {
+        cout << "posiadasz :" << properties[w] << endl;
+    }
+    printf("    [1] - Przejdz do menu");
+    cin >> equichoice;
+    if (equichoice == 1)
+    {
+        Play();
+    }
+    else
+    {
+        Equipment();
+    }
+        
+}
 int random(int a,int b)
 {
     srand(time(NULL));
@@ -131,6 +258,7 @@ void settings()
 }
 void Owned()
 {
+    cout << "          POSIADANE           " << endl;
     int w;
     for (w = 0; w <= 5; w++)
     {
@@ -138,75 +266,13 @@ void Owned()
     }
     
 }
-void Play()
-{
-    system("cls");
-    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=BUSINESS-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 
-    
-    cout << "    money    -- " << money << endl;
-    cout << "    bank account -- " <<  bankacc << endl;
-    printf("                  [1] - INFO               \n");
-    printf("                  [2] - BANK               \n");
-    printf("                  [3] - KUP                \n");
-    printf("                  [4] - SPRZEDAJ           \n");
-    printf("                  [5] - WYJDZ              \n");
-    printf("                  [6] - EKWIPUNEK          \n");
-    printf("                  [7] - WYLOT              \n");
-    printf("                                                                                      \n");
-    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-    Keyy();
-}
 
-void Info()
-{
-    int infochoice;
-    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=INFO-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-    printf("                                                                                     \n");
-    printf("    wpisz liczby w nawiasach kwadratowych aby dostac sie do okreslonych miejsc       \n");
-    printf("                       kupuj i sprzedawaj produkty aby sie wzbogacic                 \n");
-    printf("               wplacaj pieniadze do banku aby nie straci ich w czasie gry            \n");
-    printf("                                                                                     \n");
-    printf("                            [1] - POWROT DO MENU GLOWNEGO                            \n");
-    printf("                                                                                     \n");
-    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-    cin >> infochoice;
-    if (infochoice == 1) { Play(); }
-    else { Info(); }
-}
+
 //1pen 2usb  3hardrive 4keyboard 5computer 6cars
-void Buy()
-{
-    system("cls");
-    int buychoice, buynumber;
-    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=KUP-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-    printf("                     [1] - pen");
-    printf("                     [2] - usb");
-    printf("                     [3] - harddrive");
-    printf("                     [4] - keyboard");
-    printf("                     [5] - computer");
-    printf("                     [6] - car");
-    printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-    Owned();
-    printf("Wybierz numer 1 - 6");
-    cin >> buychoice;
-    cout << "Ile chcesz kupic" << names[buychoice - 1];
-    cin >> buynumber;
-    buychoice -= 1;
-    if (money >= pricesbuy[buychoice] * buynumber)
-    {
-        properties[buychoice] += buynumber;
-        money -= pricesbuy[buychoice] * buynumber;
-    }
-    else
-    {
-        system("cls");
-        printf("WPISZ LICZBE 1 - 6");
-        Sleep(1800);
-        system("cls");
-        Buy();
-    }
-}
+
+
+
 void Keyy()
 {
     cout << "Wpisz wartosc 1 - 7\n";
@@ -220,26 +286,28 @@ void Keyy()
         Bank();
         break;
     case 3:
-
+        Buy();
         break;
     case 4:
-
+        Sell();
         break;
     case 5:
-
+        exit(0);
         break;
     case 6:
-
+        Equipment();
         break;
     case 7:
-
+        IncPrice();
+        Event();
+        Play();
         break;
     }
 
 }
 int main()
 {
-    
+    Play();
  
 
 }
