@@ -18,8 +18,62 @@ float pricessell[6];
 float pricesbuy[6];
 string text[9];
 string names[6];
-void Play(), Keyy(),Bank();
+void Play(), Keyy(), Bank(), Owned(), Equipment(), settings();
 
+
+int main()
+{
+    settings();
+    Play();
+
+
+}
+int random(int a, int b)
+{
+    srand(time(NULL));
+    int random = a + rand() % b;
+    return random;
+
+}
+void Event()
+{
+    int charge;
+    float zakr1 = money * 0.1 / 1;
+    float zakr2 = money * 0.9 / 1;
+    charge = random(zakr1, zakr2);
+    text[0] = "za nocleg w hotelu placisz " + charge;
+    text[1] = "placisz mandat wynoszacy :" + charge;
+    text[2] = "zrobiles wspaniale zakupy,placisz " + charge;
+    text[3] = "za przejazd placisz " + charge;
+    text[4] = "kupiles po drodze pamiatki, placisz " + charge;
+    text[5] = "odwiedziles okoliczne atrakcje turystyczne,\n placisz " + charge;
+    text[6] = "kolega oferuje ci darmowy przejazd samolotem w zamian \n w zamian za pomoc dawno temu \n nic nie tracisz";
+    text[7] = "dostales spadek od babci,\n otrzymujesz " + charge;
+    text[8] = "nocowales u rodziny, zaoszczedziles pieniadze,\n otrzymujesz " + charge;
+
+}
+void settings()
+{
+    pricesbuy[0] = 2;
+    pricesbuy[1] = 5;
+    pricesbuy[2] = 70;
+    pricesbuy[3] = 130;
+    pricesbuy[4] = 250;
+    pricesbuy[5] = 500;
+
+    pricessell[0] = 2;
+    pricessell[1] = 5;
+    pricessell[2] = 70;
+    pricessell[3] = 130;
+    pricessell[4] = 250;
+    pricessell[5] = 500;
+    names[0] = "pen";
+    names[1] = "usb";
+    names[2] = "harddrive";
+    names[3] = "keyboard";
+    names[4] = "computer";
+    names[5] = "car";
+}
 
 
 
@@ -43,6 +97,7 @@ void Play()
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     Keyy();
 }
+
 void Info()
 {
     int infochoice;
@@ -75,9 +130,20 @@ void Bank()
     printf("       [3]   POWROT DO MENU GLOWNEGO\n");
     printf("                                                                                     \n");
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
+    Owned();
     cout << "Wybierz numer 1 - 3\n";
     cin >> bankchoice;
-    cout << "Ile pieniędzy chcesz wpłacić\n";
+    if(bankchoice==3)
+    {
+        bankacc += value;
+        money -= value;
+        system("cls");
+        cout << "Pieniadze wplacone\n";
+        Sleep(1500);
+        system("cls");
+        Play();
+        }
+    cout << "Ile pieniedzy chcesz wplacic\n";
     cin >> value;
     if (bankchoice == 1)
     {
@@ -87,18 +153,9 @@ void Bank()
             cout << "Zbyt malo pieniedzy aby wplacic\n";
             Sleep(1500);
             system("cls");
-            Bank();
+            Play();
         }
-        else 
-        {
-            bankacc += value;
-            money -= value;
-            system("cls");
-            cout << "Pieniadze wplacone\n";
-            Sleep(1500);
-            system("cls");
-            Bank();
-        }
+        
     }
     if (bankchoice == 2)
     {
@@ -122,7 +179,8 @@ void Bank()
     }
 }
 void Buy()
-{
+{   
+    
     system("cls");
     int buychoice, buynumber;
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=KUP-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
@@ -133,22 +191,29 @@ void Buy()
     cout << "                    [4] - keyboard    " << pricesbuy[3] << endl;
     cout << "                    [5] - computer    " << pricesbuy[4] << endl;
     cout << "                    [6] - car         " << pricesbuy[5] << endl;
+    cout << "                    [7] - Powrot do menu";
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     Owned();
-    printf("Wybierz numer 1 - 6");
+    printf("Wybierz numer 1 - 7 \n");
     cin >> buychoice;
-    cout << "Ile chcesz kupic" << names[buychoice - 1];
+    if (buychoice == 7) { Play(); }
+    cout << "Ile chcesz kupic \n" << names[buychoice - 1];
     cin >> buynumber;
     buychoice -= 1;
+    if (buychoice == 7)
+    {
+        Play();
+    }
     if (money >= pricesbuy[buychoice] * buynumber)
     {
         properties[buychoice] += buynumber;
         money -= pricesbuy[buychoice] * buynumber;
+        Play();
     }
     else
     {
         system("cls");
-        printf("WPISZ LICZBE 1 - 6");
+        printf("WPISZ LICZBE 1 - 7");
         Sleep(1800);
         system("cls");
         Buy();
@@ -157,7 +222,7 @@ void Buy()
 void Sell()
 {
     system("cls");
-    int buychoice, buynumber;
+    int sellchoice, sellnumber;
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=SPRZEDAJ-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     cout << "                      WYBOR                 CENA SPRZEDAŻY " << endl;
     cout << "                    [1] - pen         " << pricessell[0] << endl;
@@ -166,17 +231,24 @@ void Sell()
     cout << "                    [4] - keyboard    " << pricessell[3] << endl;
     cout << "                    [5] - computer    " << pricessell[4] << endl;
     cout << "                    [6] - car         " << pricessell[5] << endl;
+    cout << "                    [7] - Powrot do menu";
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     Owned();
-    printf("Wybierz numer 1 - 6");
-    cin >> buychoice;
-    cout << "Ile chcesz kupic" << names[buychoice - 1];
-    cin >> buynumber;
-    buychoice -= 1;
-    if (money >= pricesbuy[buychoice] * buynumber)
+    printf("Wybierz numer 1 - 7\n");
+    cin >> sellchoice;
+    if (sellchoice == 7) { Play(); }
+    cout << "Ile chcesz kupic\n" << names[sellchoice - 1];
+    cin >> sellnumber;
+    sellchoice -= 1;
+    if (sellchoice == 7)
     {
-        properties[buychoice] += buynumber;
-        money -= pricesbuy[buychoice] * buynumber;
+        Play();
+    }
+    if (properties[sellchoice - 1] >=  sellnumber)
+    {
+        properties[sellchoice] += sellnumber;
+        money += pricessell[sellchoice] * sellnumber;
+        Play();
     }
     else
     {
@@ -194,7 +266,7 @@ void Equipment()
     int w;
     for (w = 0; w <= 5; w++)
     {
-        cout << "posiadasz :" << properties[w] << endl;
+        cout << "posiadasz :" << properties[w] << "    " << names[w] << endl;
     }
     printf("    [1] - Przejdz do menu");
     cin >> equichoice;
@@ -208,13 +280,7 @@ void Equipment()
     }
         
 }
-int random(int a,int b)
-{
-    srand(time(NULL));
-    int random = a + rand() %b;
-    return random;
 
-}
 void IncPrice()
 {
     increasebuy = random(0, 5);
@@ -225,48 +291,6 @@ void IncPrice()
         pricessell[x] *= increasesell;
     }
 }
-void Event()
-{   
-    int charge;
-    float zakr1 = money * 0.1 /1;
-    float zakr2 = money * 0.9 / 1;
-    charge = random(zakr1,zakr2);
-    text[0] = "za nocleg w hotelu placisz " + charge;
-    text[1] = "placisz mandat wynoszacy :" + charge;
-    text[2] = "zrobiles wspaniale zakupy,placisz " + charge;
-    text[3] = "za przejazd placisz " + charge;
-    text[4] = "kupiles po drodze pamiatki, placisz " + charge;
-    text[5] = "odwiedziles okoliczne atrakcje turystyczne,\n placisz " + charge;
-    text[6] = "kolega oferuje ci darmowy przejazd samolotem w zamian \n w zamian za pomoc dawno temu \n nic nie tracisz";
-    text[7] = "dostales spadek od babci,\n otrzymujesz " + charge;
-    text[8] = "nocowales u rodziny, zaoszczedziles pieniadze,\n otrzymujesz " + charge;
-        
-}
-void settings()
-{
-    for (x = 0; x <= 5; x++)
-    {
-        pricesbuy[x] = 0;
-        pricessell[x] = 0;
-    }
-    names[0] = "pen";
-    names[1] = "usb";
-    names[2] = "harddrive";
-    names[3] = "keyboard";
-    names[4] = "computer";
-    names[5] = "car";
-}
-void Owned()
-{
-    cout << "          POSIADANE           " << endl;
-    int w;
-    for (w = 0; w <= 5; w++)
-    {
-        cout << "posiadasz :" << properties[w] << endl;
-    }
-    
-}
-
 
 
 //1pen 2usb  3hardrive 4keyboard 5computer 6cars
@@ -305,12 +329,16 @@ void Keyy()
     }
 
 }
-int main()
+
+
+
+void Owned()
 {
-    Play();
- 
+    cout << "          POSIADANE           " << endl;
+    int w;
+    for (w = 0; w <= 5; w++)
+    {
+        cout << "posiadasz :" << properties[w] << endl;
+    }
 
 }
-
-
-
