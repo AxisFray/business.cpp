@@ -12,6 +12,7 @@ float money = 300.0;
 float increasebuy = 1, increasesell = 1;
 float bankacc = 0.0;
 int choice;
+int number1, number2;
 using namespace std;
 float properties[6];// 1pen 2usb  3hardrive 4keyboard 5computer 6cars
 float pricessell[6];
@@ -76,7 +77,13 @@ void settings()
 }
 
 
-
+float Round0(float liczba)
+{
+    float wynik = liczba * 100;
+    int a = (int)wynik;
+    wynik = (float)a / 100;
+    return wynik;
+}
 
 void Play()
 {
@@ -84,8 +91,8 @@ void Play()
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=BUSINESS-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
 
 
-    cout << "    money    -- " << round(money) << endl;
-    cout << "    bank account -- " << round(bankacc) << endl;
+    cout << "    money    -- " << Round0(money) << endl;
+    cout << "    bank account -- " << Round0(bankacc) << endl;
     printf("                  [1] - INFO               \n");
     printf("                  [2] - BANK               \n");
     printf("                  [3] - KUP                \n");
@@ -100,6 +107,7 @@ void Play()
 
 void Info()
 {
+    system("cls");
     int infochoice;
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=INFO-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     printf("                                                                                     \n");
@@ -123,29 +131,22 @@ void Bank()
     
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=BANK=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-\n");
     printf("                                                                                     \n");
-    cout << "    money    -- " << round(money) << endl;
-    cout << "    bank account -- " << round(bankacc) << endl;
+    cout << "    money    -- " << Round0(money) << endl;
+    cout << "    bank account -- " << Round0(bankacc) << endl;
     printf("       [1]   WPLAC   \n");
     printf("       [2]   WYPLAC  \n");
     printf("       [3]   POWROT DO MENU GLOWNEGO\n");
     printf("                                                                                     \n");
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-    Owned();
     cout << "Wybierz numer 1 - 3\n";
     cin >> bankchoice;
-    if(bankchoice==3)
+    if (bankchoice == 3) //menu
     {
-        bankacc += value;
-        money -= value;
-        system("cls");
-        cout << "Pieniadze wplacone\n";
-        Sleep(1500);
-        system("cls");
         Play();
-        }
-    cout << "Ile pieniedzy chcesz wplacic\n";
+    }
+    cout << "Ile pieniedzy chcesz wplacic / wyplacic \n";
     cin >> value;
-    if (bankchoice == 1)
+    if(bankchoice==1) //wplac do banku
     {
         if (money < value)
         {
@@ -155,9 +156,12 @@ void Bank()
             system("cls");
             Play();
         }
-        
-    }
-    if (bankchoice == 2)
+        bankacc += value;
+        money -= value;
+        Play();
+        }
+    
+    if (bankchoice == 2)  //wyplac z banku
     {
         if (bankacc < value)
         {
@@ -171,12 +175,10 @@ void Bank()
         {
             bankacc -= value;
             money += value;
+            Play();
         }
     }
-    if (bankchoice == 3)
-    {
-        Play();
-    }
+    
 }
 void Buy()
 {   
@@ -185,82 +187,86 @@ void Buy()
     int buychoice, buynumber;
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=KUP-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     cout << "                      WYBOR                 CENA KUPNA" << endl;
-    cout << "                    [1] - pen         " << pricesbuy[0] << endl;
-    cout << "                    [2] - usb         " << pricesbuy[1] << endl;
-    cout << "                    [3] - harddrive   " << pricesbuy[2] << endl;
-    cout << "                    [4] - keyboard    " << pricesbuy[3] << endl;
-    cout << "                    [5] - computer    " << pricesbuy[4] << endl;
-    cout << "                    [6] - car         " << pricesbuy[5] << endl;
-    cout << "                    [7] - Powrot do menu";
+    cout << "                    [1] - pen         " << Round0(pricesbuy[0]) << endl;
+    cout << "                    [2] - usb         " << Round0(pricesbuy[1]) << endl;
+    cout << "                    [3] - harddrive   " << Round0(pricesbuy[2]) << endl;
+    cout << "                    [4] - keyboard    " << Round0(pricesbuy[3]) << endl;
+    cout << "                    [5] - computer    " << Round0(pricesbuy[4]) << endl;
+    cout << "                    [6] - car         " << Round0(pricesbuy[5]) << endl;
+    cout << "                    [7] - Powrot do menu" << endl;
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     Owned();
     printf("Wybierz numer 1 - 7 \n");
     cin >> buychoice;
+    if (buychoice <= 0 or buychoice >= 8)
+    {
+        system("cls");
+        printf("          WPISZ LICZBE 1 - 7          ");
+        Sleep(1800);
+        system("cls");
+        Buy();
+    }
     if (buychoice == 7) { Play(); }
-    cout << "Ile chcesz kupic \n" << names[buychoice - 1];
+    cout << "Ile chcesz kupic " << names[buychoice - 1] << endl;
     cin >> buynumber;
     buychoice -= 1;
-    if (buychoice == 7)
-    {
-        Play();
-    }
     if (money >= pricesbuy[buychoice] * buynumber)
     {
         properties[buychoice] += buynumber;
         money -= pricesbuy[buychoice] * buynumber;
         Play();
     }
-    else
+    if (money < pricesbuy[buychoice] * buynumber)
     {
         system("cls");
-        printf("WPISZ LICZBE 1 - 7");
+        printf("              NIE MASZ WYSTARCZAJACO PIENIEDZY         ");
         Sleep(1800);
         system("cls");
         Buy();
     }
+    
 }
 void Sell()
 {
     system("cls");
     int sellchoice, sellnumber;
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=SPRZEDAJ-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
-    cout << "                      WYBOR                 CENA SPRZEDAŻY " << endl;
-    cout << "                    [1] - pen         " << pricessell[0] << endl;
-    cout << "                    [2] - usb         " << pricessell[1] << endl;
-    cout << "                    [3] - harddrive   " << pricessell[2] << endl;
-    cout << "                    [4] - keyboard    " << pricessell[3] << endl;
-    cout << "                    [5] - computer    " << pricessell[4] << endl;
-    cout << "                    [6] - car         " << pricessell[5] << endl;
-    cout << "                    [7] - Powrot do menu";
+    cout << "                      WYBOR                 CENA SPRZEDAZY " << endl;
+    cout << "                    [1] - pen         " << Round0(pricessell[0]) << endl;
+    cout << "                    [2] - usb         " << Round0(pricessell[1]) << endl;
+    cout << "                    [3] - harddrive   " << Round0(pricessell[2]) << endl;
+    cout << "                    [4] - keyboard    " << Round0(pricessell[3]) << endl;
+    cout << "                    [5] - computer    " << Round0(pricessell[4]) << endl;
+    cout << "                    [6] - car         " << Round0(pricessell[5]) << endl;
+    cout << "                    [7] - Powrot do menu" << endl;
     printf("-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=\n");
     Owned();
     printf("Wybierz numer 1 - 7\n");
     cin >> sellchoice;
     if (sellchoice == 7) { Play(); }
-    cout << "Ile chcesz kupic\n" << names[sellchoice - 1];
+    cout << "Ile chcesz sprzedac  :" << names[sellchoice - 1] << endl;
     cin >> sellnumber;
-    sellchoice -= 1;
-    if (sellchoice == 7)
-    {
-        Play();
-    }
-    if (properties[sellchoice - 1] >=  sellnumber)
-    {
-        properties[sellchoice] += sellnumber;
-        money += pricessell[sellchoice] * sellnumber;
-        Play();
-    }
-    else
+    
+    if(sellchoice <= 0 || sellchoice >=8)
     {
         system("cls");
-        printf("WPISZ LICZBE 1 - 6");
+        printf("               WPISZ LICZBE 1 - 7                 ");
         Sleep(1800);
         system("cls");
         Buy();
     }
+    sellchoice -= 1;
+    if (properties[sellchoice] >=  sellnumber)
+    {
+        properties[sellchoice] -= sellnumber;
+        money += pricessell[sellchoice] * sellnumber;
+        
+    }
+    Play();
 }
 void Equipment()
 {
+    system("cls");
     int equichoice;
     cout << "          POSIADANE           " << endl;
     int w;
@@ -281,14 +287,103 @@ void Equipment()
         
 }
 
+void CheckNum()
+{
+    if (number1 == 1)
+    {
+        increasesell = 1.25;
+    }
+    if (number1 == 2)
+    {
+        increasesell = 0.8;
+    }
+    if (number1 == 3)
+    {
+        increasesell = 1.3;
+    }
+    if (number1 == 4)
+    {
+        increasesell = 1.2;
+    }
+    if (number1 == 5)
+    {
+        increasesell = 1.5;
+    }
+    if (number1 == 6)
+    {
+        increasesell = 1.7;
+    }
+    if (number1 == 7)
+    {
+        increasesell = 1.9;
+    }
+    if (number1 == 8)
+    {
+        increasesell = 1.3;
+    }
+    if (number1 == 9)
+    {
+        increasesell = 0.6;
+    }
+    if (number1 == 10)
+    {
+        increasesell = 0.75;
+    }
+    if (number2 == 1)
+    {
+        increasebuy = 1.25;
+    }
+    if (number2 == 2)
+    {
+        increasebuy = 0.8;
+    }
+    if (number2 == 3)
+    {
+        increasebuy = 1.3;
+    }
+    if (number2 == 4)
+    {
+        increasebuy = 1.2;
+    }
+    if (number2 == 5)
+    {
+        increasebuy = 1.5;
+    }
+    if (number2 == 6)
+    {
+        increasebuy = 1.7;
+    }
+    if (number2 == 7)
+    {
+        increasebuy = 1.9;
+    }
+    if (number2 == 8)
+    {
+        increasebuy = 1.3;
+    }
+    if (number2 == 9)
+    {
+        increasebuy = 0.6;
+    }
+    if (number2 == 10)
+    {
+        increasebuy = 0.75;
+    }
+}
 void IncPrice()
 {
-    increasebuy = random(0, 5);
-    increasesell = random(0, 5);
-    for (x = 0; x <= 5; x++)
+    
+    number1 = random(1, 10);
+    number2 = random(1, 10);
+    CheckNum();
+
+
+    for(x = 0; x <= 5; x++)
     {
         pricesbuy[x] *= increasebuy;
         pricessell[x] *= increasesell;
+        Round0(pricesbuy[x]);
+        Round0(pricessell[x]);
     }
 }
 
@@ -326,6 +421,9 @@ void Keyy()
         Event();
         Play();
         break;
+    default:
+        Play();
+        break;
     }
 
 }
@@ -338,7 +436,7 @@ void Owned()
     int w;
     for (w = 0; w <= 5; w++)
     {
-        cout << "posiadasz :" << properties[w] << endl;
+        cout << "posiadasz :" << properties[w] << "    " << names[w] << endl;
     }
 
 }
